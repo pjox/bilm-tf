@@ -13,10 +13,10 @@ def main(args):
 
     # define the options
     batch_size = 128  # batch size for each GPU
-    n_gpus = 3
+    n_gpus = 4
 
     # number of tokens in training data (this for 1B Word Benchmark)
-    n_train_tokens = 768648884
+    n_train_tokens = 1828887065
 
     options = {
      'bidirectional': True,
@@ -46,7 +46,7 @@ def main(args):
     
      'all_clip_norm_val': 10.0,
     
-     'n_epochs': 10,
+     'n_epochs': 3,
      'n_train_tokens': n_train_tokens,
      'batch_size': batch_size,
      'n_tokens_vocab': vocab.size,
