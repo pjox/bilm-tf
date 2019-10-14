@@ -752,7 +752,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
         histogram_summaries.extend(
             summary_gradient_updates(grads, opt, lr))
 
-        saver = tf.train.Saver(tf.global_variables(), max_to_keep=2)
+        saver = tf.train.Saver(tf.global_variables(), max_to_keep=10)
         summary_op = tf.summary.merge(
             [perplexity_summmary] + norm_summaries
         )
@@ -883,10 +883,10 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
             if batch_no % 100 == 0:
                 # write the summaries to tensorboard and display perplexity
                 summary_writer.add_summary(ret[1], batch_no)
-                print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))
-                print("Total time: %s" % (time.time() - t1))
+                print("Batch %s of %s batches, train_perplexity=%s" % (batch_no, n_batches_total, ret[2]), flush=True)
+                print("Total time: %s" % (time.time() - t1), flush=True)
 
-            if (batch_no % 1250 == 0) or (batch_no == n_batches_total):
+            if (batch_no == n_batches_per_epoch) or (batch_no == 3*n_batches_per_epoch) or (batch_no == 5*n_batches_per_epoch) or (batch_no == n_batches_total):
                 # save the model
                 checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                 saver.save(sess, checkpoint_path, global_step=global_step)
